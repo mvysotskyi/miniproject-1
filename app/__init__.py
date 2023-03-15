@@ -18,6 +18,9 @@ def create_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    
+    from . import db
+    db.init_app(app)
 
     # REMOVE THIS BLOCK
     # -----------------
