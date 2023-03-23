@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <meta name="robots" content="noindex, nofollow"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+	<div class="header__wrapper">
+		<div class="header__container _container">
+			<div class="header__body">
+				<div class="header__info info">
+					<a href="index.html" class="info__logo">
+						<Span>U</Span>cook
+					</a>
+				</div>
+				<div class="header__main">
+					<div class="header__menu menu">
+						<nav class="menu__body">
+							<ul class="menu__list">
+								<li class="menu__item"><a href="login.html" class="menu__link">Login</a></li>
+								<li class="menu__item"><a href="register.html" class="menu__link">Sign up</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<button type="button" class="menu__icon icon-menu">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</header>
+        <main class="page">
+            <section class="page__login login">
+                <div class="login__container _container">
+                    <div class="login__content">
+                        <div class="login__title">Login</div>
+                        <div class="login__row">
+                            <form action="#" data-message="success" class="login__form form">
+                                <input type="email" name="email" data-error="You need to fill in all fields!" data-value="Email" placeholder="Email" class="form__input _email _req">
+                                <input type="password" name="password" data-error="You need to fill in all fields!" data-value="Password" placeholder="Password" class="form__input _password _req">
+                                <button type="submit" class="login_button button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/app.min.js"></script>
+</body>
+</html>
