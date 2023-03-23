@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/auth/login" method="POST">
-        <input type="text" name="email">
-        <input type="password" name="password">
-        <input type="submit" text="Login">
-    </form>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {{messages}}
-    {% endif %}
-    {% endwith %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<section class="page__login login">
+    <div class="login__container _container">
+        <div class="login__content">
+            <div class="login__title">Login</div>
+            <div class="login__row">
+                <form action="/auth/login" method="POST" data-message="success" class="login__form form">
+                    <input type="email" name="email" data-error="You need to fill in all fields!" data-value="Email" placeholder="Email" class="form__input _email _req">
+                    <input type="password" name="password" data-error="You need to fill in all fields!" data-value="Password" placeholder="Password" class="form__input _password _req">
+                    <button type="submit" class="login_button button">Submit</button>
+                </form>
+            </div>
+            <div class="login__reglink">Do not have an accout? <a href="/auth/register">Register</a></div>
+        </div>
+    </div>
+</section>
+{% endblock %}

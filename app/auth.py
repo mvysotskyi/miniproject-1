@@ -92,7 +92,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect("/")
+            return redirect("/search")
 
         flash(error)
 
@@ -106,15 +106,18 @@ def logout():
     session.clear()
     return redirect(url_for('auth.login'))
 
-# def login_required(view):
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         if g.user is None:
-#             return redirect(url_for('auth.login'))
+def login_required(view):
+    """
+    View decorator that redirects anonymous users to the login page.
+    """
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
 
-#         return view(**kwargs)
+        return view(**kwargs)
 
-#     return wrapped_view
+    return wrapped_view
 
 @bp.before_app_request
 def load_logged_in_user():

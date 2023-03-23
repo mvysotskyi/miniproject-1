@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <title>{% block title %}Main{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <meta name="robots" content="noindex, nofollow"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    {% endblock head %}
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            {% block header %}
+            <div class="header__wrapper">
+                <div class="header__container _container">
+                    <div class="header__body">
+                        <div class="header__info info">
+                            <a href="index.html" class="info__logo">
+                                <Span>U</Span>cook
+                            </a>
+                        </div>
+                        <div class="header__main">
+                            <div class="header__menu menu">
+                                <nav class="menu__body">
+                                    <ul class="menu__list">
+                                        <li class="menu__item"><a href="/auth/login" class="menu__link">Login</a></li>
+                                        <li class="menu__item"><a href="/auth/register" class="menu__link">Sign up</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <button type="button" class="menu__icon icon-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endblock header %}
+        </header>
+        <main class="page">
+            {% block content %}{% endblock content %}
+        </main>
+    </div>
+    <script src="js/app.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#response_block').hide()
+            var selectedIngredients = [];
+
+            $("#livebox").on("input", function(e){
+                var info = $("#livebox").val();
+                $.ajax({
+                    method:'post',
+                    url: "livesearch",
+                    data: {
+                        text: info
+                    },
+                    success: function(res){
+                        var res_block = $('#response');
+                        res_block.html('');
+                        if (Object.keys(res).length === 0) {
+                            res_block.html('<li style="margin: 0">No results found</li>');
+                        } else {
+                            for (const ingr in res) {
+                                var content = document.createElement(`li`)
+                                content.innerHTML = `${res[ingr]}<button style="position: relative; z-index:9999;" class="addButton" id="${res[ingr]}">+</button>`
+                                res_block.append(content)
+                            }
+                            $('.addButton').on('click', function(e) {
+                                var idOfClicked = e.target.id;
+                                selectedIngredients.push(idOfClicked)
+                                $('#submitIngredients').attr('href', `recepies?ingredients=${JSON.stringify(selectedIngredients)}`)
+                                $('#selectedIngredients').append('<div class="result__item">' + idOfClicked + '<button class="removeButton"><span></span><span></span></button></div>');
+                                $('.removeButton').on('click', function(event) {
+                                    var index = selectedIngredients.indexOf(idOfClicked);
+                                    if (index !== -1) {
+                                        selectedIngredients.splice(index, 1);
+                                    }
+                                    $('#submitIngredients').attr(href, `recepies?ingredients=${selectedIngredients}`)
+                                    $(this).parent().remove();
+                                });
+                            });
+                        }
+                        $('#response_block').show();
+                    }
+                })
+            });
+
+            $('#livebox').blur(function() {
+                setTimeout(() => {  $('#response_block').hide() }, 150);
+            });
+        });
+    </script>
+</body>
+</html>
