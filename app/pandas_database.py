@@ -6,11 +6,11 @@ This module contains functions to load data from csv files.
 
 import pandas as pd
 
-def load_recipes(path: str):
+def load_records(path: str = ""):
     """
     Load recipes from csv file.
     """
-    ...
+    return False
 
 def load_products(path: str):
     """
