@@ -4,7 +4,7 @@ Description: This file creates and configures an instance of the Flask applicati
 """
 
 import os
-from flask import Flask
+from flask import Flask, g
 
 def create_app():
     """
@@ -28,11 +28,10 @@ def create_app():
     from . import search
     app.register_blueprint(search.bp)
 
-    # REMOVE THIS BLOCK
-    # -----------------
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    from . import pandas_database
+    app.config['pandas_database'] = pandas_database.load_records()
+    app.config['products'] = pandas_database.load_products(
+        os.path.join(app.instance_path, 'products.csv')
+    )
 
     return app
