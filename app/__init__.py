@@ -30,8 +30,11 @@ def create_app():
     from . import search
     app.register_blueprint(search.bp)
 
+    from . import recepies
+    app.register_blueprint(recepies.bp)
+
     app.config["_raw"] = pd.read_csv('instance/RAW_recipes.csv')
     app.config["_pp"] = pd.read_csv('instance/PP_recipes.csv')
-    app.config["_final"] = app.config["_raw"].merge(app.config["_pp"],left_on='id',right_on='id')
+    app.config["_final"] = pd.read_csv('instance/recipes.csv')
 
     return app

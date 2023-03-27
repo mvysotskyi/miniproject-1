@@ -15,8 +15,8 @@ def all_recipes(ingredient_list, pp_recipes, final):
         row = row[1:-1]
         row = row.split(', ')
         row = [int(elem) for elem in row]
-        for _id in ingredient_id_list:
-            if _id not in row:
+        for _id in row:
+            if _id not in ingredient_id_list:
                 return False
         return True
     results = pp_recipes[pp_recipes['ingredient_ids'].apply(func)]
