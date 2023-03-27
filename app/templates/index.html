@@ -28,7 +28,7 @@
                     <div class="search__title search__title_top">Your choice:</div>
                     <div id='selectedIngredients' class="search__result result">
                     </div>
-                    <a href='recepies' id='submitIngredients' class="search__submit">Show me recepies!</a>
+                    <a href='/recepies' id='submitIngredients' class="search__submit">Show me recepies!</a>
                 </div>
             </section>
         </main>
@@ -67,7 +67,7 @@
                                 var idOfClicked = e.target.id;
                                 if (!selectedIngredients.includes(idOfClicked)) {
                                     selectedIngredients.push(idOfClicked);
-                                    $('#submitIngredients').attr('href', `recepies?ingredients=${JSON.stringify(selectedIngredients)}`)
+                                    $('#submitIngredients').attr('href', `/recepies?ingredients=${JSON.stringify(selectedIngredients)}`)
                                     $('#selectedIngredients').append('<div class="result__item">' + idOfClicked + '<button class="removeButton" id="' + idOfClicked + '"><span style="pointer-events: none"></span><span style="pointer-events: none"></span></button></div>');
                                     $('.removeButton').on('click', function(event) {
                                         var index = selectedIngredients.indexOf(event.target.id);
@@ -75,7 +75,7 @@
                                             selectedIngredients.splice(index, 1);
                                         }
                                         console.log(selectedIngredients);
-                                        $('#submitIngredients').attr('href', `recepies?ingredients=${selectedIngredients}`)
+                                        $('#submitIngredients').attr('href', `/recepies?ingredients=${selectedIngredients}`)
                                         $(this).parent().remove();
                                     });
                                 }

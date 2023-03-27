@@ -7,9 +7,11 @@ import re
 from pathlib import Path
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from app.ingresient_to_list import full_recipe
 
 from app.db import get_db
 
@@ -135,10 +137,14 @@ def login():
 @bp.route('/account')
 def account():
     _username = g.user['username']
+    like_indexes = list(map(int, g.user['liked'].split(',')))
+    liked_recepies = full_recipe(like_indexes, current_app.config["_final"])
+    liked_recepies = [item[1] for item in list(liked_recepies.items())]
+    index_recepie = list(zip(like_indexes, liked_recepies))
     header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
     with header_path.open('r', encoding='utf-8') as _f:
         _header = _f.read()
-        return render_template('account.html', username=_username, header = _header)
+        return render_template('account.html', username=_username, header = _header, liked_recepies=index_recepie)
 
 
 @bp.route('/logout')

@@ -20,7 +20,7 @@
                 <div class="recepies__container _container">
                     <div class="recepies__title">Recepies for you:</div>
                     {% for recepie in recepies %}
-                        <a href="recepie?id={{ recepie.index }}" class="recepies__recepie recepie">
+                        <a href="/recepies/recepie?id={{ recepie.index }}" class="recepies__recepie recepie">
                             <div class="recepie__info">
                                 <div class="recepie__name">{{ recepie.name|capitalize }}</div>
                                 {% if recepie.calorie_level == 0 %}

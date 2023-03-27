@@ -22,55 +22,23 @@
                         <div class="account__title">Hello, {{ username }}!</div>
                         <div class="account__text">Here are all your liked recepies:</div>
                         <div class="account__likes">
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
-                            <a href="#" class="account__like like">
-                                <div class="like__info">
-                                    <div class="like__name">Lorem ipsum dolor sit.</div>
-                                    <div class="like__calorie">Low calorie</div>
-                                </div>
-                                <div class="like__time">45 mins</div>
-                            </a>
+                            {% for liked in liked_recepies %}
+                                <a href="/recepies/recepie?id={{ liked[0] }}" class="account__like like">
+                                    <div class="like__info">
+                                        <div class="like__name">{{ liked[1].name|capitalize }}</div>
+                                        {% if liked[1].calorie_level == 0 %}
+                                            <div class="recepie__calorie">Low calorie</div>
+                                        {% endif %}
+                                        {% if liked[1].calorie_level == 1 %}
+                                            <div class="recepie__calorie">Medium calorie</div>
+                                        {% endif %}
+                                        {% if liked[1].calorie_level == 2 %}
+                                            <div class="recepie__calorie">High calorie</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="like__time">{{ liked[1].minutes }} mins</div>
+                                </a>
+                            {% endfor %}
                         </div>
                         <a href='/auth/logout' class="account__logout">Logout</a>
                     </div>

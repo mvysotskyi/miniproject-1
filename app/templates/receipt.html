@@ -32,7 +32,7 @@
                                     <div class="recepie__calorie">High calorie</div>
                                 {% endif %}
                             </div>
-                            <button class='receipt__button' id="likeRecepie">♡</button>
+                            <button class='receipt__button' id="likeRecepie">{{ heart }}</button>
                         </div>
                     <div class="receipt__descrp">{{ recipe.description }}</div>
                     <div class="receipt__title">How to cook?</div>
@@ -43,9 +43,28 @@
     </div>
     <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
     <script>
+        $.parseParams = function(queryString) {
+        var params = {}, queries, temp, i, l;
+        queries = queryString.split("&");
+        for (i = 0, l = queries.length; i < l; i++) {
+            temp = queries[i].split('=');
+            params[temp[0]] = decodeURIComponent(temp[1]);
+        }
+        return params;
+        };
         $("#likeRecepie").on("click", function(e) {
             if ($(e.target).html() === '♡') {
+                var queryString = window.location.search
+                var queryParams = $.parseParams(queryString);
+                recepie_id = queryParams['?id']
                 $(e.target).html('♥')
+                $.ajax({
+                    method:'post',
+                    url: "/recepies/like",
+                    data: {
+                        recepie_id: recepie_id
+                    }
+                });
             }
             else {
                 $(e.target).html('♡')
