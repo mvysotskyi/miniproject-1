@@ -6,6 +6,7 @@ import re
 from flask import Blueprint, render_template, request, current_app
 
 from app.ingresient_to_list import all_recipes, full_recipe
+from app.db import get_db
 
 bp = Blueprint('recepies', __name__, url_prefix='/recepies')
 
@@ -46,3 +47,32 @@ def recepie():
     _recipe['steps'] = _comp.sub(cap, _recipe['steps'])
     _recipe['description'] = _comp.sub(cap, _recipe['description'])
     return render_template('receipt.html', recipe=_recipe)
+
+@bp.post('/like')
+def like():
+    """
+    Post request to like the recipe(recepie_id) by user(user_id).
+    If like already exists, it will be deleted.
+    """
+    recepie_id = request.form.get('recepie_id', None)
+    user_id = request.form.get('user_id', None)
+
+    if recepie_id is None or user_id is None:
+        return 'error', 400
+
+    db = get_db()
+
+    liked = db.execute(f'SELECT liked FROM user WHERE id = {user_id}').fetchone()
+    if liked['liked'] is None:
+        liked = str(recepie_id)
+    else:
+        liked = liked['liked'].split(',')
+        if recepie_id in liked:
+            liked.remove(recepie_id)
+
+        liked = ','.join(liked + [recepie_id])
+
+    db.execute(f'UPDATE user SET liked = "{liked}" WHERE id = {user_id}')
+    db.commit()
+
+    return 'ok', 200
