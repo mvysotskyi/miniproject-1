@@ -1071,7 +1071,7 @@ main {
 }
 @media (max-width: 767.98px) {
   .register {
-    margin-top: 50px;
+    margin-top: 100px;
   }
 }
 .register__content {
@@ -1082,7 +1082,7 @@ main {
 @media (min-width: 767.98px) {
   .register__content {
     width: 500px;
-    height: 410px;
+    height: 490px;
     border-radius: 20px;
     border: #57BE6C solid 2px;
     padding: 30px;
@@ -1414,4 +1414,108 @@ line-height: 48px;
 .myerror__text {
 font-size: 24px;
 line-height: 36px;
+}
+
+.account__content {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+.account__title {
+text-align: center;
+color: #000;
+font-size: 38px;
+line-height: 57px;
+font-weight: 600;
+margin-bottom: 30px;
+}
+@media (max-width: 480px) {
+.account__title {
+    font-size: 28px;
+    line-height: 42px;
+}
+}
+.account__text {
+text-align: center;
+color: #000;
+font-size: 38px;
+line-height: 57px;
+font-weight: 600;
+margin-bottom: 30px;
+}
+@media (max-width: 480px) {
+.account__text {
+    font-size: 28px;
+    line-height: 42px;
+}
+}
+.account__likes {
+width: 100%;
+margin-bottom: 30px;
+}
+.account__logout {
+align-self: end;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #E5E5E5;
+height: 45px;
+width: 135px;
+background-color: #57BE6C;
+transition: background-color 0.3s ease 0s;
+border-radius: 30px;
+}
+.account__logout:hover {
+background-color: #E5E5E5;
+border: 2px solid #57BE6C;
+color: #57BE6C;
+}
+
+.like {
+color: #000;
+padding: 10px;
+margin: 0 0 20px 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+height: 65px;
+border-radius: 8px;
+border: 1.5px solid #57BE6C;
+transition: background-color 0.3s ease 0s;
+}
+.like:hover {
+background-color: rgba(87, 190, 108, 0.2);
+}
+.like__name {
+font-size: 21px;
+font-weight: 600;
+margin: 0 0 5px 0;
+}
+@media (max-width: 479.98px) {
+.like__name {
+    font-size: 18px;
+}
+}
+.like__calorie {
+font-weight: 300;
+color: rgba(34, 34, 34, 0.7);
+font-size: 15px;
+}
+@media (max-width: 479.98px) {
+.like__calorie {
+    font-size: 12px;
+}
+}
+.like__time {
+position: relative;
+font-size: 17px;
+}
+@media (max-width: 479.98px) {
+.like__time {
+    font-size: 14px;
+}
+}
+
+section {
+    margin-bottom: 100px;
 }

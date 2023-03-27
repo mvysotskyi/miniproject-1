@@ -4,6 +4,7 @@ Auth Blueprint.
 
 import functools
 import re
+from pathlib import Path
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -34,6 +35,7 @@ def register():
     Hashes the password for security.
     :return: None
     """
+    user_id = session.get('user_id')
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -65,15 +67,32 @@ def register():
             else:
                 return redirect(url_for("auth.login"))
 
-        return render_template('error.html', error_text=error)
+        if user_id is None:
+            header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
+        else:
+            header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
 
-    return render_template('auth/register.html')
+        with header_path.open('r', encoding='utf-8') as _f:
+            _header = _f.read()
+            return render_template('error.html', error_text=error, header = _header)
+
+
+    if user_id is None:
+        header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
+    else:
+        header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
+
+    with header_path.open('r', encoding='utf-8') as _f:
+        _header = _f.read()
+        return render_template('auth/register.html', header = _header)
+
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     """
     Log in a registered user by adding the user id to the session.
     """
+    user_id = session.get('user_id')
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -95,9 +114,32 @@ def login():
             session['user_id'] = user['id']
             return redirect("/search")
 
-        return render_template('error.html', error_text=error)
+        if user_id is None:
+            header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
+        else:
+            header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
 
-    return render_template('auth/login.html')
+        with header_path.open('r', encoding='utf-8') as _f:
+            _header = _f.read()
+            return render_template('error.html', error_text=error, header = _header)
+
+    if user_id is None:
+        header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
+    else:
+        header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
+
+    with header_path.open('r', encoding='utf-8') as _f:
+        _header = _f.read()
+        return render_template('auth/login.html', header = _header)
+
+@bp.route('/account')
+def account():
+    _username = g.user['username']
+    header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
+    with header_path.open('r', encoding='utf-8') as _f:
+        _header = _f.read()
+        return render_template('account.html', username=_username, header = _header)
+
 
 @bp.route('/logout')
 def logout():
@@ -106,6 +148,7 @@ def logout():
     """
     session.clear()
     return redirect(url_for('auth.login'))
+
 
 def login_required(view):
     """
@@ -127,7 +170,6 @@ def load_logged_in_user():
     the database into ``g.user``.
     """
     user_id = session.get('user_id')
-
     if user_id is None:
         g.user = None
     else:
