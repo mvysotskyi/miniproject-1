@@ -7,6 +7,7 @@ from flask import Blueprint, render_template, request, current_app
 
 from app.ingresient_to_list import all_recipes, full_recipe
 from app.db import get_db
+from app.auth import login_required
 
 bp = Blueprint('recepies', __name__, url_prefix='/recepies')
 
@@ -49,6 +50,7 @@ def recepie():
     return render_template('receipt.html', recipe=_recipe)
 
 @bp.post('/like')
+@login_required
 def like():
     """
     Post request to like the recipe(recepie_id) by user(user_id).
