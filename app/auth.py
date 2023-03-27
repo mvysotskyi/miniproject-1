@@ -61,10 +61,11 @@ def register():
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
+                print("User already registered.")
             else:
                 return redirect(url_for("auth.login"))
 
-        flash(error)
+        return render_template('error.html', error_text=error)
 
     return render_template('auth/register.html')
 
@@ -94,7 +95,7 @@ def login():
             session['user_id'] = user['id']
             return redirect("/search")
 
-        flash(error)
+        return render_template('error.html', error_text=error)
 
     return render_template('auth/login.html')
 

@@ -6,6 +6,8 @@ Description: This file creates and configures an instance of the Flask applicati
 import os
 from flask import Flask, g
 
+import pandas as pd
+
 def create_app():
     """
     Create and configure an instance of the Flask application.
@@ -28,10 +30,8 @@ def create_app():
     from . import search
     app.register_blueprint(search.bp)
 
-    from . import pandas_database
-    app.config['pandas_database'] = pandas_database.load_records()
-    app.config['products'] = pandas_database.load_products(
-        os.path.join(app.instance_path, 'products.csv')
-    )
+    app.config["_raw"] = pd.read_csv('instance/RAW_recipes.csv')
+    app.config["_pp"] = pd.read_csv('instance/PP_recipes.csv')
+    app.config["_final"] = app.config["_raw"].merge(app.config["_pp"],left_on='id',right_on='id')
 
     return app

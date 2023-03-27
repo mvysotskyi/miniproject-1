@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Recepies</title>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <meta name="robots" content="noindex, nofollow"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header__wrapper">
+                <div class="header__container _container">
+                    <div class="header__body">
+                        <div class="header__info info">
+                            <a href="/" class="info__logo">
+                                <Span>U</Span>cook
+                            </a>
+                        </div>
+                        <div class="header__main">
+                            <div class="header__menu menu">
+                                <nav class="menu__body">
+                                    <ul class="menu__list">
+                                        <li class="menu__item"><a href="login" class="menu__link">Login</a></li>
+								        <li class="menu__item"><a href="register" class="menu__link">Sign up</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <button type="button" class="menu__icon icon-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="page">
+            <section class="page__recepies recepies">
+                <div class="recepies__container _container">
+                    <div class="recepies__title">Recepies for you:</div>
+                    {% for recepie in recepies %}
+                        <a href="recepie?id={{ recepie.index }}" class="recepies__recepie recepie">
+                            <div class="recepie__info">
+                                <div class="recepie__name">{{ recepie.name|capitalize }}</div>
+                                {% if recepie.calorie_level == 0 %}
+                                    <div class="recepie__calorie">Low calorie</div>
+                                {% endif %}
+                                {% if recepie.calorie_level == 1 %}
+                                    <div class="recepie__calorie">Medium calorie</div>
+                                {% endif %}
+                                {% if recepie.calorie_level == 2 %}
+                                    <div class="recepie__calorie">High calorie</div>
+                                {% endif %}
+                            </div>
+                            <div class="recepie__time">{{ recepie.minutes }} mins</div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+</body>
+</html>

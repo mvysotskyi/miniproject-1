@@ -2,7 +2,6 @@
 Script is used to make a csv file of all the ingredients in the recipes.
 """
 
-import json
 import pandas as pd
 
 df = pd.read_csv('../../instance/recipes.csv')
@@ -13,7 +12,7 @@ def make_list(string):
     """
     return string[1:-1].split(',')
 
-unique_values = frozenset([value for sublist in df['ingredients'] for value in make_list(sublist)])
+unique_values = set([value.strip("  '  ") for sublist in df['ingredients'] for value in make_list(sublist)])
+unique_df = pd.DataFrame({'ingredients': list(unique_values)})
 
-with open('../../instance/ingredients.json', 'w', encoding="utf-8") as f:
-    json.dump(list(unique_values), f)
+unique_df.to_csv('../../instance/products.csv', index=False)

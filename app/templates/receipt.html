@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ recipe.name|capitalize }}</title>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <meta name="robots" content="noindex, nofollow"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header__wrapper">
+                <div class="header__container _container">
+                    <div class="header__body">
+                        <div class="header__info info">
+                            <a href="/" class="info__logo">
+                                <Span>U</Span>cook
+                            </a>
+                        </div>
+                        <div class="header__main">
+                            <div class="header__menu menu">
+                                <nav class="menu__body">
+                                    <ul class="menu__list">
+                                        <li class="menu__item"><a href="login" class="menu__link">Login</a></li>
+								        <li class="menu__item"><a href="register" class="menu__link">Sign up</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <button type="button" class="menu__icon icon-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="page">
+            <section class="page_receipt receipt">
+                <div class="receipt__container _container">
+                    <div class="receipt__title">{{ recipe.name|capitalize }}</div>
+                        <div class="receipt__small">
+                            <div class="receipt__info">
+                                <div class="receipt__ingr">({{ recipe.ingredients }})</div>
+                                <div class="receipt__time">{{ recipe.minutes }} mins</div>
+                                {% if recipe.calorie_level == 0 %}
+                                    <div class="recepie__calorie">Low calorie</div>
+                                {% endif %}
+                                {% if recipe.calorie_level == 1 %}
+                                    <div class="recepie__calorie">Medium calorie</div>
+                                {% endif %}
+                                {% if recipe.calorie_level == 2 %}
+                                    <div class="recepie__calorie">High calorie</div>
+                                {% endif %}
+                            </div>
+                            <button class='receipt__button' id="likeRecepie">♡</button>
+                        </div>
+                    <div class="receipt__descrp">{{ recipe.description }}</div>
+                    <div class="receipt__title">How to cook?</div>
+                    <div class="receipt__cooking">{{ recipe.steps }}</div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    <script>
+        $("#likeRecepie").on("click", function(e) {
+            if ($(e.target).html() === '♡') {
+                $(e.target).html('♥')
+            }
+            else {
+                $(e.target).html('♡')
+            }
+        });
+    </script>
+</body>
+</html>

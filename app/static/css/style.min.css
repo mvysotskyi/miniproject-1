@@ -1357,7 +1357,6 @@ main {
 }
 .receipt__ingr {
   margin: 0 0 5px 0;
-  max-width: 70%;
 }
 .receipt__time {
   margin: 0 0 5px 0;
@@ -1366,9 +1365,9 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF965B;
+  color: #E5E5E5;
   height: 45px;
-  min-width: 45px;
+  width: 45px;
   font-size: 27px;
   background-color: #57BE6C;
   transition: background-color 0.3s ease 0s;
@@ -1392,26 +1391,4 @@ main {
 .receipt__cooking {
   font-size: 21px;
   line-height: 32px;
-}
-
-.myerror {
-    margin-top: 25px;
-    color: #222222;
-}
-.myerror__container {
-background-color: rgba(87, 190, 108, 0.2);
-border: 2px solid #57BE6C;
-border-radius: 8px;
-padding: 10px;
-text-align: center;
-}
-.myerror__title {
-margin-bottom: 10px;
-font-weight: 600;
-font-size: 32px;
-line-height: 48px;
-}
-.myerror__text {
-font-size: 24px;
-line-height: 36px;
 }
