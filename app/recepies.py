@@ -54,7 +54,6 @@ def recepie():
             _heart = '♡'
     else:
         _heart = '♡'
-    print(_heart)
     _recipe = full_recipe(recepie_id, current_app.config["_final"])[0]
     _recipe['steps'] = '. '.join(_recipe['steps'][2:-2].replace("'", '!').split("!, !")) + '.'
     _recipe['ingredients'] = ', '.join(_recipe['ingredients'][2:-2].split("', '"))
