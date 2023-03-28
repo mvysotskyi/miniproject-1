@@ -53,3 +53,8 @@ This file contains the routes for the search. The route for search page and api 
 - **templates** - contains html templates
 - **sql** - contains sql files for database creation
 - **pandas_access** - contains python modules for working with our Pandas dataset
+
+
+## What about _setup.py_
+
+This file is used for installing the app as a package. It is not used in this project and is empty for now.
