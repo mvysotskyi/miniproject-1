@@ -1,75 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>{{ recipe.name|capitalize }}</title>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="favicon.ico">
-    <!-- <meta name="robots" content="noindex, nofollow"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
-<body>
-    <div class="wrapper">
-        {{ header|safe }}
-        <main class="page">
-            <section class="page_receipt receipt">
-                <div class="receipt__container _container">
-                    <div class="receipt__title">{{ recipe.name|capitalize }}</div>
-                        <div class="receipt__small">
-                            <div class="receipt__info">
-                                <div class="receipt__ingr">({{ recipe.ingredients }})</div>
-                                <div class="receipt__time">{{ recipe.minutes }} mins</div>
-                                {% if recipe.calorie_level == 0 %}
-                                    <div class="recepie__calorie">Low calorie</div>
-                                {% endif %}
-                                {% if recipe.calorie_level == 1 %}
-                                    <div class="recepie__calorie">Medium calorie</div>
-                                {% endif %}
-                                {% if recipe.calorie_level == 2 %}
-                                    <div class="recepie__calorie">High calorie</div>
-                                {% endif %}
-                            </div>
-                            <button class='receipt__button' id="likeRecepie">{{ heart }}</button>
-                        </div>
-                    <div class="receipt__descrp">{{ recipe.description }}</div>
-                    <div class="receipt__title">How to cook?</div>
-                    <div class="receipt__cooking">{{ recipe.steps }}</div>
+{% extends 'base.html' %}
+{% block title %}{{ recipe.name|capitalize }}{% endblock %}
+
+{% block content %}
+<section class="page_receipt receipt">
+    <div class="receipt__container _container">
+        <div class="receipt__title">{{ recipe.name|capitalize }}</div>
+            <div class="receipt__small">
+                <div class="receipt__info">
+                    <div class="receipt__ingr">({{ recipe.ingredients }})</div>
+                    <div class="receipt__time">{{ recipe.minutes }} mins</div>
+                    {% if recipe.calorie_level == 0 %}
+                        <div class="recepie__calorie">Low calorie</div>
+                    {% endif %}
+                    {% if recipe.calorie_level == 1 %}
+                        <div class="recepie__calorie">Medium calorie</div>
+                    {% endif %}
+                    {% if recipe.calorie_level == 2 %}
+                        <div class="recepie__calorie">High calorie</div>
+                    {% endif %}
                 </div>
-            </section>
-        </main>
+                {% if logged %}
+                    {% if liked %}
+                    <button class='receipt__button' id="likeRecepie">♥</button>
+                    {% else %}
+                    <button class='receipt__button' id="likeRecepie">♡</button>
+                    {% endif %}
+                {% endif %}
+            </div>
+        <div class="receipt__descrp">{{ recipe.description }}</div>
+        <div class="receipt__title">How to cook?</div>
+        <div class="receipt__cooking">{{ recipe.steps }}</div>
     </div>
-    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
-    <script>
-        $.parseParams = function(queryString) {
-        var params = {}, queries, temp, i, l;
-        queries = queryString.split("&");
-        for (i = 0, l = queries.length; i < l; i++) {
-            temp = queries[i].split('=');
-            params[temp[0]] = decodeURIComponent(temp[1]);
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $.parseParams = function(queryString) {
+    var params = {}, queries, temp, i, l;
+    queries = queryString.split("&");
+    for (i = 0, l = queries.length; i < l; i++) {
+        temp = queries[i].split('=');
+        params[temp[0]] = decodeURIComponent(temp[1]);
+    }
+    return params;
+    };
+    $("#likeRecepie").on("click", function(e) {
+        console.log("clicked")
+        if ($(e.target).html() === '♡') {
+            var queryString = window.location.search
+            var queryParams = $.parseParams(queryString);
+            recepie_id = queryParams['?id']
+            $(e.target).html('♥')
+            $.ajax({
+                method:'post',
+                url: "/recepies/like",
+                data: {
+                    recepie_id: recepie_id
+                }
+            });
         }
-        return params;
-        };
-        $("#likeRecepie").on("click", function(e) {
-            if ($(e.target).html() === '♡') {
-                var queryString = window.location.search
-                var queryParams = $.parseParams(queryString);
-                recepie_id = queryParams['?id']
-                $(e.target).html('♥')
-                $.ajax({
-                    method:'post',
-                    url: "/recepies/like",
-                    data: {
-                        recepie_id: recepie_id
-                    }
-                });
-            }
-            else {
-                $(e.target).html('♡')
-            }
-        });
-    </script>
-</body>
-</html>
+        else {
+            $(e.target).html('♡')
+        }
+    });
+</script>
+{% endblock %}

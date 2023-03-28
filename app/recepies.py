@@ -3,8 +3,7 @@ Recipes Blueprint.
 """
 
 import re
-from flask import Blueprint, render_template, request, current_app, session,g
-from pathlib import Path
+from flask import Blueprint, render_template, request, current_app, g, session
 
 from app.ingresient_to_list import all_recipes, full_recipe
 from app.db import get_db
@@ -31,30 +30,20 @@ def recepies():
     _recepies = [item[1] for item in list(_recepies.items())]
 
     user_id = session.get('user_id')
-
-    if user_id is None:
-        header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
-    else:
-        header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
-
-    with header_path.open('r', encoding='utf-8') as _f:
-        _header = _f.read()
-        return render_template('recepies.html', recepies=_recepies, header = _header)
+    return render_template('recepies.html', recepies=_recepies, logged = user_id is not None)
 
 @bp.route('/recepie')
 def recepie():
     '''
     Documentation.
     '''
-    recepie_id = [int(request.args.get('id'))]
-    if session.get('user_id'):
-        if str(recepie_id[0]) in g.user['liked'].split(','):
-            _heart = '♥'
-        else:
-            _heart = '♡'
-    else:
-        _heart = '♡'
-    _recipe = full_recipe(recepie_id, current_app.config["_final"])[0]
+    recepie_id = request.args.get('id')
+    if not recepie_id:
+        return render_template('error.html', error_text='You did not choose any recepie.')
+
+    liked = str(recepie_id) in g.user['liked'].split(',') if g.user else False
+
+    _recipe = full_recipe([int(recepie_id)], current_app.config["_final"])[0]
     _recipe['steps'] = '. '.join(_recipe['steps'][2:-2].replace("'", '!').split("!, !")) + '.'
     _recipe['ingredients'] = ', '.join(_recipe['ingredients'][2:-2].split("', '"))
     _comp = re.compile(r'((?<=[\.\?!]\s)(\w+)|(^\w+))')
@@ -66,17 +55,12 @@ def recepie():
     _recipe['steps'] = _comp.sub(cap, _recipe['steps'])
     _recipe['description'] = _comp.sub(cap, _recipe['description'])
 
-    user_id = session.get('user_id')
-
-    if user_id is None:
-        header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
-    else:
-        header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
-
-    with header_path.open('r', encoding='utf-8') as _f:
-        _header = _f.read()
-        return render_template('receipt.html', recipe=_recipe, header = _header, heart=_heart)
-
+    return render_template(
+        'receipt.html', 
+        recipe=_recipe,
+        liked=liked,
+        logged = g.user is not None
+    )
 
 @bp.post('/like')
 @login_required
@@ -94,7 +78,7 @@ def like():
     db = get_db()
 
     liked = db.execute(f'SELECT liked FROM user WHERE id = {user_id}').fetchone()
-    if liked['liked'] is None:
+    if not liked['liked']:
         liked = str(recepie_id)
     else:
         liked = liked['liked'].split(',')
@@ -105,5 +89,7 @@ def like():
 
     db.execute(f'UPDATE user SET liked = "{liked}" WHERE id = {user_id}')
     db.commit()
+
+    print(f'User {user_id} liked {recepie_id}.')
 
     return 'ok', 200

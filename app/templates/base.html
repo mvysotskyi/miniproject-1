@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <meta name="robots" content="noindex, nofollow"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    {% block meta %}{% endblock %}
+</head>
+
+<body>
+    <div class="wrapper">
+        {% block header %}
+        <header class="header">
+            <div class="header__wrapper">
+                <div class="header__container _container">
+                    <div class="header__body">
+                        <div class="header__info info">
+                            <a href="/search" class="info__logo">
+                                <Span>U</Span>cook
+                            </a>
+                        </div>
+                        <div class="header__main">
+                            <div class="header__menu menu">
+                                <nav class="menu__body">
+                                    <ul class="menu__list">
+                                        {% if logged %}
+                                        <li class="menu__item"><a href="/auth/account" class="menu__link">My account</a></li>
+                                        {% else %}
+                                        <li class="menu__item"><a href="/auth/login" class="menu__link">Login</a></li>
+                                        <li class="menu__item"><a href="/auth/register" class="menu__link">Sign up</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <button type="button" class="menu__icon icon-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% endblock %}
+        <main class="page">
+            {% block content %}{% endblock %}
+        </main>
+        {% block footer %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+

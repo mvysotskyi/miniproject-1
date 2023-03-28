@@ -5,5 +5,5 @@ CREATE TABLE user (
   email TEXT UNIQUE NOT NULL,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
-  liked TEXT
+  liked TEXT NOT NULL DEFAULT ''
 );

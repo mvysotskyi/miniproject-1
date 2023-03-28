@@ -2,18 +2,14 @@
 Auth Blueprint.
 """
 
-import functools
 import re
-from pathlib import Path
+import functools
 
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
-)
+from flask import Blueprint, g, redirect, render_template, request, session, url_for, current_app
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.ingresient_to_list import full_recipe
-
 from app.db import get_db
+from app.ingresient_to_list import full_recipe
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -38,6 +34,7 @@ def register():
     :return: None
     """
     user_id = session.get('user_id')
+
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -69,25 +66,9 @@ def register():
             else:
                 return redirect(url_for("auth.login"))
 
-        if user_id is None:
-            header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
-        else:
-            header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
+        return render_template('error.html', error_text=error, logged=user_id is not None)
 
-        with header_path.open('r', encoding='utf-8') as _f:
-            _header = _f.read()
-            return render_template('error.html', error_text=error, header = _header)
-
-
-    if user_id is None:
-        header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
-    else:
-        header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
-
-    with header_path.open('r', encoding='utf-8') as _f:
-        _header = _f.read()
-        return render_template('auth/register.html', header = _header)
-
+    return render_template('auth/register.html', logged=user_id is not None)
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -95,6 +76,7 @@ def login():
     Log in a registered user by adding the user id to the session.
     """
     user_id = session.get('user_id')
+
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -102,9 +84,7 @@ def login():
         db = get_db()
         error = None
 
-        user = db.execute(
-            'SELECT * FROM user WHERE email = ?', (email,)
-        ).fetchone()
+        user = db.execute('SELECT * FROM user WHERE email = ?', (email,)).fetchone()
 
         if user is None:
             error = errors["inv_email"]
@@ -116,36 +96,9 @@ def login():
             session['user_id'] = user['id']
             return redirect("/search")
 
-        if user_id is None:
-            header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
-        else:
-            header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
+        return render_template('error.html', error_text=error, logged=False)
 
-        with header_path.open('r', encoding='utf-8') as _f:
-            _header = _f.read()
-            return render_template('error.html', error_text=error, header = _header)
-
-    if user_id is None:
-        header_path = Path(__file__).parent / "static/html_parts/header_unlogged.html"
-    else:
-        header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
-
-    with header_path.open('r', encoding='utf-8') as _f:
-        _header = _f.read()
-        return render_template('auth/login.html', header = _header)
-
-@bp.route('/account')
-def account():
-    _username = g.user['username']
-    like_indexes = list(map(int, g.user['liked'].split(',')))
-    liked_recepies = full_recipe(like_indexes, current_app.config["_final"])
-    liked_recepies = [item[1] for item in list(liked_recepies.items())]
-    index_recepie = list(zip(like_indexes, liked_recepies))
-    header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
-    with header_path.open('r', encoding='utf-8') as _f:
-        _header = _f.read()
-        return render_template('account.html', username=_username, header = _header, liked_recepies=index_recepie)
-
+    return render_template('auth/login.html', logged=user_id is not None)
 
 @bp.route('/logout')
 def logout():
@@ -154,20 +107,6 @@ def logout():
     """
     session.clear()
     return redirect(url_for('auth.login'))
-
-
-def login_required(view):
-    """
-    View decorator that redirects anonymous users to the login page.
-    """
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -182,3 +121,36 @@ def load_logged_in_user():
         g.user = get_db().execute(
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
+
+def login_required(view):
+    """
+    View decorator that redirects anonymous users to the login page.
+    """
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+@bp.route('/account')
+def account():
+    """
+    Render current user account page.
+    """
+    if not g.user:
+        return redirect(url_for('auth.login'))
+
+    like_indexes = list(map(int, g.user['liked'].split(','))) if g.user['liked'] else []
+    liked_recepies = full_recipe(like_indexes, current_app.config["_final"])
+    liked_recepies = [item[1] for item in list(liked_recepies.items())]
+    index_recepie = list(zip(like_indexes, liked_recepies))
+
+    return render_template(
+        'account.html',
+        username=g.user['username'],
+        logged = True,
+        liked_recepies=index_recepie
+    )

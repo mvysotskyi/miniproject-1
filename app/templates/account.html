@@ -1,51 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>My account</title>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="favicon.ico">
-    <!-- <meta name="robots" content="noindex, nofollow"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
+{% extends 'base.html' %}
+{% block title %}My account{% endblock %}
 
-<body>
-    <div class="wrapper">
-        {{ header|safe }}
-        <main class="page">
-            <section class="page__account account">
-                <div class="account__container _container">
-                    <div class="account__content">
-                        <div class="account__title">Hello, {{ username }}!</div>
-                        <div class="account__text">Here are all your liked recepies:</div>
-                        <div class="account__likes">
-                            {% for liked in liked_recepies %}
-                                <a href="/recepies/recepie?id={{ liked[0] }}" class="account__like like">
-                                    <div class="like__info">
-                                        <div class="like__name">{{ liked[1].name|capitalize }}</div>
-                                        {% if liked[1].calorie_level == 0 %}
-                                            <div class="recepie__calorie">Low calorie</div>
-                                        {% endif %}
-                                        {% if liked[1].calorie_level == 1 %}
-                                            <div class="recepie__calorie">Medium calorie</div>
-                                        {% endif %}
-                                        {% if liked[1].calorie_level == 2 %}
-                                            <div class="recepie__calorie">High calorie</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="like__time">{{ liked[1].minutes }} mins</div>
-                                </a>
-                            {% endfor %}
+{% block content %}
+<section class="page__account account">
+    <div class="account__container _container">
+        <div class="account__content">
+            <div class="account__title">Hello, {{ username }}!</div>
+            <div class="account__text">Here are all your liked recepies:</div>
+            <div class="account__likes">
+                {% for liked in liked_recepies %}
+                    <a href="/recepies/recepie?id={{ liked[0] }}" class="account__like like">
+                        <div class="like__info">
+                            <div class="like__name">{{ liked[1].name|capitalize }}</div>
+                            {% if liked[1].calorie_level == 0 %}
+                                <div class="recepie__calorie">Low calorie</div>
+                            {% endif %}
+                            {% if liked[1].calorie_level == 1 %}
+                                <div class="recepie__calorie">Medium calorie</div>
+                            {% endif %}
+                            {% if liked[1].calorie_level == 2 %}
+                                <div class="recepie__calorie">High calorie</div>
+                            {% endif %}
                         </div>
-                        <a href='/auth/logout' class="account__logout">Logout</a>
-                    </div>
-                </div>
-            </section>
-        </main>
+                        <div class="like__time">{{ liked[1].minutes }} mins</div>
+                    </a>
+                {% endfor %}
+            </div>
+            <a href='/auth/logout' class="account__logout">Logout</a>
+        </div>
     </div>
-    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
-</body>
-
+</section>
+{% endblock %}

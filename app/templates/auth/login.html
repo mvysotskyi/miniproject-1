@@ -1,37 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Login</title>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="favicon.ico">
-    <!-- <meta name="robots" content="noindex, nofollow"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
+{% extends 'base.html' %}
 
-<body>
-    <div class="wrapper">
-        {{ header|safe }}
-        <main class="page">
-            <section class="page__login login">
-                <div class="login__container _container">
-                    <div class="login__content">
-                        <div class="login__title">Login</div>
-                        <div class="login__row">
-                            <form action="/auth/login" method="post" data-message="success" class="login__form form">
-                                <input type="email" name="email" data-error="You need to fill in all fields!" data-value="Email" placeholder="Email" class="form__input _email _req">
-                                <input type="password" name="password" data-error="You need to fill in all fields!" data-value="Password" placeholder="Password" class="form__input _password _req">
-                                <button type="submit" class="login_button button">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<section class="page__login login">
+    <div class="login__container _container">
+        <div class="login__content">
+            <div class="login__title">Login</div>
+            <div class="login__row">
+                <form action="/auth/login" method="post" data-message="success" class="login__form form">
+                    <input type="email" name="email" data-error="You need to fill in all fields!" data-value="Email" placeholder="Email" class="form__input _email _req">
+                    <input type="password" name="password" data-error="You need to fill in all fields!" data-value="Password" placeholder="Password" class="form__input _password _req">
+                    <button type="submit" class="login_button button">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
-</body>
-</html>
+</section>
+{% endblock %}

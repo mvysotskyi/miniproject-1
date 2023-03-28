@@ -4,7 +4,7 @@ Description: This file creates and configures an instance of the Flask applicati
 """
 
 import os
-from flask import Flask, g
+from flask import Flask, g, render_template
 
 import pandas as pd
 
@@ -35,6 +35,13 @@ def create_app():
 
     app.config["_raw"] = pd.read_csv('instance/RAW_recipes.csv')
     app.config["_pp"] = pd.read_csv('instance/PP_recipes.csv')
-    app.config["_final"] = app.config["_raw"].merge(app.config["_pp"],left_on='id',right_on='id')
+    app.config["_final"] = pd.read_csv('instance/recipes.csv')
+
+    @app.route('/')
+    def index():
+        """
+        Main page.
+        """
+        return render_template('index.html', logged = g.user is not None)
 
     return app

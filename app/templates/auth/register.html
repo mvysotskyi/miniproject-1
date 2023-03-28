@@ -1,36 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Sign up</title>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="favicon.ico">
-    <!-- <meta name="robots" content="noindex, nofollow"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
+{% extends 'base.html' %}
 
-<body>
-    <div class="wrapper">
-        {{ header|safe }}
-            <section class="page__register register">
-                <div class="register__container _container">
-                    <div class="register__content">
-                        <div class="register__title">Sign up</div>
-                        <form action="/auth/register" method="post" data-message="success" class="register__form form">
-                            <input type="email" name="email" placeholder="Email" class="form__input">
-                            <input type="text" name="username" placeholder="Name" class="form__input">
-                            <input type="password" name="password" placeholder="Password" class="form__input">
-                            <input type="password" name="password_repeat" placeholder="Confirm assword" class="form__input">
-                            <button type="submit" class="register_button button">Sign up</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-        </main>
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<section class="page__register register">
+    <div class="register__container _container">
+        <div class="register__content">
+            <div class="register__title">Sign up</div>
+            <form action="/auth/register" method="post" data-message="success" class="register__form form">
+                <input type="email" name="email" placeholder="Email" class="form__input">
+                <input type="text" name="username" placeholder="Name" class="form__input">
+                <input type="password" name="password" placeholder="Password" class="form__input">
+                <input type="password" name="password_repeat" placeholder="Confirm assword" class="form__input">
+                <button type="submit" class="register_button button">Sign up</button>
+            </form>
+        </div>
     </div>
-    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
-</body>
-</html>
+</section>
+{% endblock %}

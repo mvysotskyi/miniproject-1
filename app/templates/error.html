@@ -1,27 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Error</title>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="favicon.ico">
-    <!-- <meta name="robots" content="noindex, nofollow"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
-<body>
-    <div class="wrapper">
-        {{ header|safe }}
-        <main class="page">
-            <section class="page__error myerror">
-                <div class="myerror__container _container">
-                    <div class="myerror__title">Error</div>
-                    <div class="myerror__text">{{ error_text }}</div>
-                </div>
-            </section>
-        </main>
+{% extends 'base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<section class="page__error myerror">
+    <div class="myerror__container _container">
+        <div class="myerror__title">Error</div>
+        <div class="myerror__text">{{ error_text }}</div>
     </div>
-    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
-</body>
+</section>
+{% endblock %}
