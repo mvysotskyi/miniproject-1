@@ -15,6 +15,10 @@ python3 -m venv venv
 ```bash
 pip install -r requirements.txt
 ```
+- Initialize the database
+```bash
+flask --app app init-user-table
+```
 - Run the app
 ```bash
 flask --app app run
