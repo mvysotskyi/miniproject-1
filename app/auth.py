@@ -137,10 +137,13 @@ def login():
 @bp.route('/account')
 def account():
     _username = g.user['username']
-    like_indexes = list(map(int, g.user['liked'].split(',')))
-    liked_recepies = full_recipe(like_indexes, current_app.config["_final"])
-    liked_recepies = [item[1] for item in list(liked_recepies.items())]
-    index_recepie = list(zip(like_indexes, liked_recepies))
+    if g.user['liked']:
+        like_indexes = list(map(int, g.user['liked'].split(',')))
+        liked_recepies = full_recipe(like_indexes, current_app.config["_final"])
+        liked_recepies = [item[1] for item in list(liked_recepies.items())]
+        index_recepie = list(zip(like_indexes, liked_recepies))
+    else:
+        index_recepie = None
     header_path = Path(__file__).parent / "static/html_parts/header_logged.html"
     with header_path.open('r', encoding='utf-8') as _f:
         _header = _f.read()

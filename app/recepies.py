@@ -47,7 +47,7 @@ def recepie():
     Documentation.
     '''
     recepie_id = [int(request.args.get('id'))]
-    if session.get('user_id'):
+    if session.get('user_id') and g.user['liked']:
         if str(recepie_id[0]) in g.user['liked'].split(','):
             _heart = '♥'
         else:
