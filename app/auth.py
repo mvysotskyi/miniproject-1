@@ -9,7 +9,7 @@ from flask import Blueprint, g, redirect, render_template, request, session, url
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.db import get_db
-from app.ingresient_to_list import full_recipe
+from app.pandas_access.ingresient_to_list import full_recipe
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -31,7 +31,18 @@ def register():
     Register a new user.
     Validates that the username is not already taken.
     Hashes the password for security.
-    :return: None
+    
+    GET: Renders the register page.
+    POST: Registers the user and redirects to the login page.
+
+    POST request parameters:
+        username: Username of the user.
+        email: Email of the user.
+        password: Password of the user.
+    
+    Returns:
+        Renders the register page if the request method is GET.
+        Error page if the request method is POST and some error occurs.
     """
     user_id = session.get('user_id')
 
@@ -62,7 +73,6 @@ def register():
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
-                print("User already registered.")
             else:
                 return redirect(url_for("auth.login"))
 
@@ -74,6 +84,17 @@ def register():
 def login():
     """
     Log in a registered user by adding the user id to the session.
+
+    GET: Renders the login page.
+    POST: Logs in the user and redirects to the search page.
+
+    POST request parameters:
+        email: Email of the user.
+        password: Password of the user.
+
+    Returns:
+        Renders the login page if the request method is GET.
+        Error page if the request method is POST and some error occurs.
     """
     user_id = session.get('user_id')
 
@@ -104,6 +125,9 @@ def login():
 def logout():
     """
     Clear the current session, including the stored user id.
+
+    Returns:
+        Redirects to the login page.
     """
     session.clear()
     return redirect(url_for('auth.login'))

@@ -47,18 +47,19 @@
     };
     $("#likeRecepie").on("click", function(e) {
         console.log("clicked")
+        var queryString = window.location.search
+        var queryParams = $.parseParams(queryString);
+        recepie_id = queryParams['?id']
+
+        $.ajax({
+            method: 'post',
+            url: "/recepies/like",
+            data: {
+                recepie_id: recepie_id
+            }
+        });
         if ($(e.target).html() === '♡') {
-            var queryString = window.location.search
-            var queryParams = $.parseParams(queryString);
-            recepie_id = queryParams['?id']
             $(e.target).html('♥')
-            $.ajax({
-                method:'post',
-                url: "/recepies/like",
-                data: {
-                    recepie_id: recepie_id
-                }
-            });
         }
         else {
             $(e.target).html('♡')

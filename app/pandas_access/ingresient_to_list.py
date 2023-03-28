@@ -1,10 +1,23 @@
-'''Documentation.'''
+"""
+This module contains the function that returns the list of ingredients.
+"""
+
 import pandas as pd
 
 def all_recipes(ingredient_list, pp_recipes, final):
-    '''
-    Documentation.
-    '''
+    """
+    Retuns a dictionary with the recipes that contain all the ingredients.
+
+    Parameters
+    ----------
+    ingredient_list : list
+        A list of ingredients.
+
+    Returns
+    -------
+    dict
+        A dictionary with the recipes that contain all the ingredients.
+    """
     ingredient_id_list = []
     pickle = pd.read_pickle('instance/ingr_map.pkl')
     search = pickle.groupby(by='replaced').mean(numeric_only=True)
@@ -19,7 +32,7 @@ def all_recipes(ingredient_list, pp_recipes, final):
             if _id not in row: # or -> for _id in ingredient_id_list
                 return False
         return True
-    results = pp_recipes[pp_recipes['ingredient_ids'].apply(func)]
+    results = pp_recipes[pp_recipes['ingredient_ids'].apply(func)].head(15)
     dicti = {}
     final_id  = final.set_index('id')
     for elem in final_id.loc[results['id'], :].index:
@@ -29,9 +42,19 @@ def all_recipes(ingredient_list, pp_recipes, final):
     return dicti
 
 def full_recipe(id_list, final):
-    '''
-    Documentation.
-    '''
+    """
+    Returns a dictionary with the full recipe.
+
+    Parameters
+    ----------
+    id_list : list
+        A list of ids.
+
+    Returns
+    -------
+    dict
+        A dictionary with the full recipe.
+    """
     dicti = {}
     prep = final[final['id'].isin(id_list)].set_index('id').loc[id_list, ['name',
     'minutes',

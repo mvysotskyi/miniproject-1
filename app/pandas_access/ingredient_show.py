@@ -1,11 +1,24 @@
-'''Description.'''
-import pandas as pd
+"""
+This module contains the function that returns the list of ingredients.
+"""
+
 import re
+import pandas as pd
 
 def request_names(request):
-    '''
-    Documentation.
-    '''
+    """
+    Returns a list of ingredients that match the request.
+
+    Parameters
+    ----------
+    request : str
+        The request to be matched.
+
+    Returns
+    -------
+    dict
+        A dictionary with the matched ingredients.
+    """
     a = pd.read_pickle('instance/ingr_map.pkl')
     a['replaced'].replace('flmy','flour',inplace=True)
     all_items = ','.join(list(set(a['replaced'])))
