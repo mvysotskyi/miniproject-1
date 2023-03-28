@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 app/pandas_scripts/*.csv
-app/static/js
 
 # Distribution / packaging
 .Python
