@@ -4,6 +4,7 @@ Description: This file creates and configures an instance of the Flask applicati
 """
 
 import os
+import json
 from flask import Flask, g, render_template
 
 import pandas as pd
@@ -33,7 +34,6 @@ def create_app():
     from . import recepies
     app.register_blueprint(recepies.bp)
 
-    app.config["_raw"] = pd.read_csv('instance/RAW_recipes.csv')
     app.config["_pp"] = pd.read_csv('instance/PP_recipes.csv')
     app.config["_final"] = pd.read_csv('instance/recipes.csv')
 
@@ -42,6 +42,10 @@ def create_app():
         """
         Main page.
         """
-        return render_template('index.html', logged = g.user is not None)
+        return render_template(
+            'index.html', 
+            random_recepies = app.config["_final"].sample(6).to_dict('records'),
+            logged = g.user is not None
+        )
 
     return app

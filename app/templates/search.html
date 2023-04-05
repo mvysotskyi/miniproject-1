@@ -6,7 +6,10 @@
         <div class="search__container _container">
             <div class="search__title">Search ingredients you have:</div>
             <div class="search__field field">
-                <input type="text" class="field__input" placeholder="write your ingredients in english..." id="livebox">
+                <div class="search__field__container">
+                    <input type="text" class="field__input" placeholder="Write your ingredients in english..." id="livebox">
+                    <a href='/recepies' id='submitIngredients' class="button">Search</a>
+                </div>
                 <div id="response_block" class="field__response">
                     <ul class="field__list" id="response">
                     </ul>
@@ -15,7 +18,6 @@
             <div class="search__title search__title_top">Your choice:</div>
             <div id='selectedIngredients' class="search__result result">
             </div>
-            <a href='/recepies' id='submitIngredients' class="button">Show me recepies!</a>
         </div>
     </section>
 {% endblock %}
@@ -45,12 +47,14 @@
                         if (Object.keys(res).length === 0) {
                             res_block.html('<li style="margin: 0">No results found</li>');
                         } else {
+                            res = Object.fromEntries(Object.entries(res).slice(0, 4));
                             for (const ingr in res) {
                                 var content = document.createElement(`li`)
-                                content.innerHTML = `${res[ingr]}<button class="addButton" id="${res[ingr]}">+</button>`
+                                content.innerHTML = `${res[ingr]}<span class="button" id="${res[ingr]}">+</span>`
                                 res_block.append(content)
                             }
-                            $('.addButton').on('click', function(e) {
+                            $('.field__list .button').on('mousedown', function(e) {
+                                // $('#livebox').val('');
                                 var idOfClicked = e.target.id;
                                 if (!selectedIngredients.includes(idOfClicked)) {
                                     selectedIngredients.push(idOfClicked);

@@ -5,7 +5,7 @@ Auth Blueprint.
 import re
 import functools
 
-from flask import Blueprint, g, redirect, render_template, request, session, url_for, current_app
+from flask import Blueprint, g, redirect, render_template, request, session, url_for, current_app, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.db import get_db
@@ -76,7 +76,7 @@ def register():
             else:
                 return redirect(url_for("auth.login"))
 
-        return render_template('error.html', error_text=error, logged=user_id is not None)
+        flash(error)
 
     return render_template('auth/register.html', logged=user_id is not None)
 
@@ -117,7 +117,7 @@ def login():
             session['user_id'] = user['id']
             return redirect("/search")
 
-        return render_template('error.html', error_text=error, logged=False)
+        flash(error)
 
     return render_template('auth/login.html', logged=user_id is not None)
 

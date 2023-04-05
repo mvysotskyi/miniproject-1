@@ -885,7 +885,7 @@ body.ie ._ibg img {
 }
 
 main {
-  padding: 90px 20px;
+  padding: 110px 20px 80px 20px;
 }
 
 .page__auth {
@@ -901,6 +901,7 @@ main {
 
 .auth__container {
   min-width: 340px;
+  max-width: 420px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -916,6 +917,14 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.flashes {
+  width: 100%;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #f55341;
+  font-weight: 500;
 }
 
 .auth__container .actions {
@@ -996,38 +1005,33 @@ main {
 .search__title_top {
   margin-top: 30px;
 }
-.search__submit {
-  margin-bottom: 50px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%);
-  display: flex;
+
+.search__field__container {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #E5E5E5;
-  font-size: 19px;
-  width: 250px;
-  height: 75px;
-  background-color: #57BE6C;
-  overflow: hidden;
-  transition: all 0.3s ease 0s;
-  border-radius: 8px;
-  transition: background-color 0.3s ease 0s;
+  width: 100%;
 }
-.search__submit:hover {
-  background-color: #E5E5E5;
-  border: 2px solid #57BE6C;
-  color: #57BE6C;
+
+.search__field__container .button {
+  margin-left: 10px;
+  padding: 15px;
+}
+
+.search__field__container .button a {
+  width: 100%;
+}
+
+.search__field {
+  position: relative;
 }
 
 .field__input {
   width: 100%;
-  padding: 5px;
-  border-radius: 8px;
-  border: #222222 solid 1.5px;
-  background-color: #E5E5E5;
-  transition: all 0.3s ease 0s;
-  margin: 0 0 3px 0;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  transition: all 0.2s ease 0s;
+  padding: 15px;
 }
 .field__input:focus {
   background-color: rgba(87, 190, 108, 0.2);
@@ -1035,15 +1039,21 @@ main {
 }
 .field__response {
   width: 100%;
-  border: #57BE6C solid 1.5px;
   border-radius: 8px;
   padding: 10px 0;
   transition: all 0.3s ease 0s;
+  background-color: #fcfcfc;
+  border: 1px solid #ebeaea;
+  position: absolute;
+  max-height: 36vh;
+  overflow-y: auto;
+  z-index: 1000;
+  top: calc(100% + 10px);
 }
 .field__response li {
   margin: 0 0 10px 0;
   display: flex;
-  padding: 2px 15px;
+  padding: 5px 15px;
   justify-content: space-between;
   align-items: center;
   transition: background-color 0.3s ease 0s;
@@ -1054,8 +1064,8 @@ main {
 .field__response li button {
   color: #E5E5E5;
   font-size: 24px;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background-color: #57BE6C;
   border-radius: 50%;
   display: flex;
@@ -1069,8 +1079,14 @@ main {
   color: #57BE6C;
 }
 
+.field__list .button {
+  padding: 0;
+  width: 35px;
+  height: 35px;
+}
+
 .result {
-  padding: 15px;
+  padding: 15px 5px;
   margin: 0 0 40px 1.5px;
   display: inline-flex;
   justify-content: start;
@@ -1090,12 +1106,12 @@ main {
   }
 }
 .result__item {
-  margin: 0 0 40px 0;
+  margin: 0 10px 10px 0;
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  padding: 10px 15px;
+  padding: 15px 20px;
   color: #363636;
   background-color: #9deaac;
   overflow: hidden;
@@ -1117,11 +1133,11 @@ main {
     margin: 0 0 20px 0;
   }
 }
-.result__item button {
+.result__item .removeButton {
   z-index: 2;
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 6px;
+  right: 6px;
   width: 10px;
   height: 10px;
 }
@@ -1151,6 +1167,11 @@ main {
   line-height: 48px;
   font-weight: 600;
   margin: 30px 0 30px 0;
+}
+
+.recepies__title.nofound {
+  color: #525252;
+  text-align: center;
 }
 
 @media (max-width: 480px) {
@@ -1287,8 +1308,8 @@ main {
   justify-content: center;
   padding: 0 !important;
   font-size: 20px !important;
-  width: 46px;
-  height: 40px;
+  min-width: 46px;
+  min-height: 40px;
 }
 
 .receipt__descrp {
@@ -1364,4 +1385,122 @@ margin-bottom: 30px;
 }
 .account__likes {
 width: 100%;
+}
+
+/* ------------------------------------ *\
+  # INDEX PAGE
+\* ------------------------------------ */
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main styles */
+.page__index {
+  margin: 50px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.page__index div {
+  margin: 30px 0 80px 0;
+}
+
+.page__index div h2 {
+  color: #222222;
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 600;
+  margin: 30px 0 30px 0;
+  text-align: center;
+}
+
+.page__index div p {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.page__index div ul {
+  list-style: none;
+  padding: 0;
+}
+
+.page__index div li {
+  margin-bottom: 20px;
+}
+
+/* Example recipes styles */
+.examples ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.examples li {
+  flex-basis: calc(33.33% - 15px);
+  background-color: #fbfbfb;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.examples li a {
+  color: #222222;
+  font-size: 19px;
+  font-weight: 600;
+  transition: color 0.2s ease-in-out;
+}
+
+.examples li a:hover {
+  color: #636363;
+}
+
+.examples li .description {
+  padding: 0;
+  margin: 15px 0 0 0;
+  font-size: 15px;
+  color: #343434;
+}
+
+.examples img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.examples h3 {
+  font-size: 24px;
+  margin: 20px;
+}
+
+.examples p {
+  font-size: 18px;
+  margin: 20px;
+  line-height: 1.5;
+}
+
+.wishlist ul {
+  margin-top: 30px;
+}
+
+.wishlist li {
+  font-size: 16px;
+  position: relative;
+}
+
+.wishlist li::before {
+  min-width: 10px;
+  min-height: 10px;
+  border-radius: 50px;
+  background-color: #222222;
+  content: " ";
+  position: absolute;
+  top: 50%;
 }

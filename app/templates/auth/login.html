@@ -11,6 +11,15 @@
                 <form action="/auth/login" method="post" data-message="success" class="auth__form form">
                     <input type="email" name="email" data-error="You need to fill in all fields!" data-value="Email" placeholder="Email" class="form__input _email _req">
                     <input type="password" name="password" data-error="You need to fill in all fields!" data-value="Password" placeholder="Password" class="form__input _password _req">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% endwith %}
                     <div class="actions">
                         <button type="submit" class="auth_button button">Login</button>
                         <p>Do not have accout? <a class="link" href="/auth/register">Sign Up</a></p>

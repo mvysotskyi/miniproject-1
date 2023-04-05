@@ -2,5 +2,30 @@
 {% block title %}Ucook{% endblock %}
 
 {% block content %}
-<h1>Index page.</h1>
+<section class="page__index">
+    <div class="description">
+        <h2>Find Delicious Recipes with What You Have</h2>
+        <p>With our recipe search website, you can easily find recipes based on the ingredients you have on hand. No more wasting time and money at the grocery store buying unnecessary ingredients. Simply enter the ingredients you have, and our website will suggest recipes you can make with them.</p>
+    </div>
+    <div class="examples">
+        <h2>Examples of Recipes You Can Find</h2>
+        <ul>
+            {% for recepie in random_recepies %}
+                <li>
+                    <a href="/recepies/recepie?id={{ recepie.id }}">{{ recepie.name|capitalize }}</a>
+                    <p class="description">{% set descr = recepie["description"][:100] %}{{ descr|capitalize }}...</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="wishlist">
+        <h2>What We Want to Do Next</h2>
+        <p>At <strong>Ucook</strong>, we are always looking to improve our website and make it easier for users to find the recipes they want. Some of our plans for the future include:</p>
+        <ul>
+            <li>Adding a feature for users to save their favorite recipes</li>
+            <li>Creating a shopping list based on the recipes you choose</li>
+            <li>Partnering with local grocery stores to provide discounts on ingredients</li>
+        </ul>
+    </div>
+</section>
 {% endblock %}

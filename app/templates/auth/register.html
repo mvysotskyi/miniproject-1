@@ -11,6 +11,15 @@
                 <input type="email" name="email" placeholder="Email" class="form__input">
                 <input type="text" name="username" placeholder="Name" class="form__input">
                 <input type="password" name="password" placeholder="Password" class="form__input">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
                 <div class="actions">
                     <button type="submit" class="login_button button">Sign up</button>
                     <p>Already have an accout? <a class="link" href="/auth/login">Sign In</a></p>
