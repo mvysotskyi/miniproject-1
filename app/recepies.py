@@ -72,6 +72,7 @@ def recepie():
         return (_match.group().capitalize())
     _recipe['steps'] = _comp.sub(cap, _recipe['steps'])
     _recipe['description'] = _comp.sub(cap, _recipe['description'])
+    _recipe['id'] = recepie_id
 
     return render_template(
         'receipt.html', 

@@ -3,15 +3,18 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<section class="page__register register">
-    <div class="register__container _container">
-        <div class="register__content">
-            <div class="register__title">Sign up</div>
-            <form action="/auth/register" method="post" data-message="success" class="register__form form">
+<section class="page__auth">
+    <div class="auth__container _container">
+        <div class="auth__content">
+            <div class="auth__title">Sign up</div>
+            <form action="/auth/register" method="post" data-message="success" class="auth__form form">
                 <input type="email" name="email" placeholder="Email" class="form__input">
                 <input type="text" name="username" placeholder="Name" class="form__input">
                 <input type="password" name="password" placeholder="Password" class="form__input">
-                <button type="submit" class="register_button button">Sign up</button>
+                <div class="actions">
+                    <button type="submit" class="login_button button">Sign up</button>
+                    <p>Already have an accout? <a class="link" href="/auth/login">Sign In</a></p>
+                </div>
             </form>
         </div>
     </div>

@@ -21,6 +21,7 @@ def all_recipes(ingredient_list, pp_recipes, final):
     ingredient_id_list = []
     pickle = pd.read_pickle('instance/ingr_map.pkl')
     search = pickle.groupby(by='replaced').mean(numeric_only=True)
+
     for ingredient in ingredient_list:
         ingredient_id = int(search.loc[ingredient,'id'])
         ingredient_id_list.append(ingredient_id)

@@ -5,6 +5,7 @@
 {% block content %}
 <section class="page__recepies recepies">
     <div class="recepies__container _container">
+        {% if recepies %}
         <div class="recepies__title">Recepies for you:</div>
         {% for recepie in recepies %}
             <a href="/recepies/recepie?id={{ recepie.index }}" class="recepies__recepie recepie">
@@ -23,6 +24,8 @@
                 <div class="recepie__time">{{ recepie.minutes }} mins</div>
             </a>
         {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

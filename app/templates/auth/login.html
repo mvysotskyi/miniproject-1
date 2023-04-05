@@ -3,15 +3,18 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-<section class="page__login login">
-    <div class="login__container _container">
-        <div class="login__content">
-            <div class="login__title">Login</div>
-            <div class="login__row">
-                <form action="/auth/login" method="post" data-message="success" class="login__form form">
+<section class="page__auth">
+    <div class="auth__container">
+        <div class="auth__content">
+            <div class="auth__title">Login</div>
+            <div class="auth__row">
+                <form action="/auth/login" method="post" data-message="success" class="auth__form form">
                     <input type="email" name="email" data-error="You need to fill in all fields!" data-value="Email" placeholder="Email" class="form__input _email _req">
                     <input type="password" name="password" data-error="You need to fill in all fields!" data-value="Password" placeholder="Password" class="form__input _password _req">
-                    <button type="submit" class="login_button button">Submit</button>
+                    <div class="actions">
+                        <button type="submit" class="auth_button button">Login</button>
+                        <p>Do not have accout? <a class="link" href="/auth/register">Sign Up</a></p>
+                    </div>
                 </form>
             </div>
         </div>

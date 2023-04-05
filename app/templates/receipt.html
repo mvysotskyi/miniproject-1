@@ -4,31 +4,40 @@
 {% block content %}
 <section class="page_receipt receipt">
     <div class="receipt__container _container">
-        <div class="receipt__title">{{ recipe.name|capitalize }}</div>
+        <div class="receipt__title">
+            {{ recipe.name|capitalize }}<span>#{{ recipe.id }}</span>
+        </div>
             <div class="receipt__small">
                 <div class="receipt__info">
-                    <div class="receipt__ingr">({{ recipe.ingredients }})</div>
-                    <div class="receipt__time">{{ recipe.minutes }} mins</div>
+                    <div class="receipt__ingr"><span class="label">Ingredients: </span>{{ recipe.ingredients }}</div>
+                    <div class="receipt__time"><span class="label">Time: </span>{{ recipe.minutes }} mins</div>
                     {% if recipe.calorie_level == 0 %}
-                        <div class="recepie__calorie">Low calorie</div>
+                        <div class="recepie__calorie">
+                            <p class="low">Low calorie</p>
+                        </div>
                     {% endif %}
                     {% if recipe.calorie_level == 1 %}
-                        <div class="recepie__calorie">Medium calorie</div>
+                        <div class="recepie__calorie">
+                            <p class="medium">Medium calorie</p>
+                        </div>
                     {% endif %}
                     {% if recipe.calorie_level == 2 %}
-                        <div class="recepie__calorie">High calorie</div>
+                        <div class="recepie__calorie">
+                            <p class="high">High calorie</p>
+                        </div>
                     {% endif %}
                 </div>
                 {% if logged %}
                     {% if liked %}
-                    <button class='receipt__button' id="likeRecepie">♥</button>
+                    <button href="{{ recipe.id }}" class='receipt__button button inverse' id="likeRecepie">♥</button>
                     {% else %}
-                    <button class='receipt__button' id="likeRecepie">♡</button>
+                    <button href="{{ recipe.id }}" class='receipt__button button inverse' id="likeRecepie">♡</button>
                     {% endif %}
                 {% endif %}
             </div>
+        <div class="receipt__title small">Description</div>
         <div class="receipt__descrp">{{ recipe.description }}</div>
-        <div class="receipt__title">How to cook?</div>
+        <div class="receipt__title small">How to cook?</div>
         <div class="receipt__cooking">{{ recipe.steps }}</div>
     </div>
 </section>
@@ -46,10 +55,7 @@
     return params;
     };
     $("#likeRecepie").on("click", function(e) {
-        console.log("clicked")
-        var queryString = window.location.search
-        var queryParams = $.parseParams(queryString);
-        recepie_id = queryParams['?id']
+        recepie_id = $(e.target).attr("href")
 
         $.ajax({
             method: 'post',
