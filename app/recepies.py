@@ -3,7 +3,7 @@ Recipes Blueprint.
 """
 
 import re
-from flask import Blueprint, render_template, request, current_app, g, session
+from flask import Blueprint, render_template, request, current_app, g, session, flash, redirect
 
 from app.pandas_access.ingresient_to_list import all_recipes, full_recipe
 from app.db import get_db
@@ -25,21 +25,21 @@ def recepies():
     --------
     Found recepies page.
     """
-    _ingredients = request.args.get('ingredients')
-    try:
-        if '[' in _ingredients:
-            _ingredients = _ingredients[1:-1].replace('flour', 'flmy').replace('"', '').split(',')
-        else:
-            _ingredients = _ingredients.replace('flour', 'flmy').replace('"', '').split(',')
-    except TypeError:
-        return render_template('error.html', error_text='You did not choose any ingredients. '+\
-        'Please, go back and choose ingredients you have'+\
-        ' at home (press "+" button on the right to do so.)')
-    _recepies = all_recipes(_ingredients, current_app.config["_pp"], current_app.config["_final"])
-    _recepies = [item[1] for item in list(_recepies.items())]
+    ingredients = request.args.get('ingredients')
+    if not ingredients:
+        flash('You did not choose any ingredients(press "+" button on the right to do so).')
+        return redirect('/search')
 
-    user_id = session.get('user_id')
-    return render_template('recepies.html', recepies=_recepies, logged = user_id is not None)
+    ingredients = ingredients.replace('flour', 'flmy').replace('"', '').strip("[]").split(',')
+
+    recepies_dict = all_recipes(
+        ingredients,
+        current_app.config["_pp"],
+        current_app.config["_final"],
+        current_app.config["ingredients"]
+    )
+
+    return render_template('recepies.html', recepies=recepies_dict, logged = g.user is not None)
 
 @bp.route('/recepie')
 def recepie():

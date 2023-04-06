@@ -2,7 +2,7 @@
 Search blueprint.
 """
 
-from flask import Blueprint, render_template, request, g
+from flask import Blueprint, render_template, request, g, current_app
 from app.pandas_access.ingredient_show import request_names
 
 bp = Blueprint('search', __name__, url_prefix='/search')
@@ -31,5 +31,5 @@ def livesearch():
         A list of ingredients that match the searchbox.
     """
     searchbox = request.form.get('text')
-    res = request_names(searchbox)
+    res = request_names(searchbox, current_app.config['ingredients'])
     return res

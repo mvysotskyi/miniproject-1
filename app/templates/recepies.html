@@ -7,8 +7,8 @@
     <div class="recepies__container _container">
         {% if recepies %}
         <div class="recepies__title">Recepies for you:</div>
-        {% for recepie in recepies %}
-            <a href="/recepies/recepie?id={{ recepie.index }}" class="recepies__recepie recepie">
+        {% for recepie_id, recepie in recepies.items() %}
+            <a href="/recepies/recepie?id={{ recepie_id }}" class="recepies__recepie recepie">
                 <div class="recepie__info">
                     <div class="recepie__name">{{ recepie.name|capitalize }}</div>
                     {% if recepie.calorie_level == 0 %}

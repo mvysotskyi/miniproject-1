@@ -37,6 +37,8 @@ def create_app():
     app.config["_pp"] = pd.read_csv('instance/PP_recipes.csv')
     app.config["_final"] = pd.read_csv('instance/recipes.csv')
 
+    app.config["ingredients"] = pd.read_pickle('instance/ingr_map.pkl')
+
     @app.route('/')
     def index():
         """

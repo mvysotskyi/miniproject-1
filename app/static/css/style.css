@@ -71,10 +71,6 @@ ul li {
   list-style: none;
 }
 
-img {
-  vertical-align: top;
-}
-
 h1,
 h2,
 h3,
@@ -116,14 +112,6 @@ body {
     max-width: none;
     padding: 0 10px;
   }
-}
-
-.btn {
-  display: inline-flex;
-  padding: 0px 0px;
-}
-.btn._fw {
-  width: 100%;
 }
 
 .select {
@@ -849,7 +837,7 @@ body.ie ._ibg img {
 }
 
 main {
-  padding: 110px 20px 80px 20px;
+  padding: 120px 20px 80px 20px;
 }
 
 .page__auth {
@@ -975,6 +963,7 @@ main {
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .search__field__container .button {
@@ -1122,7 +1111,7 @@ main {
 }
 
 /* ------------------------------------ *\
-  #RECIPE
+  # RECIPE
 \* ------------------------------------ */
 
 .recepies__title {
@@ -1285,16 +1274,38 @@ main {
   .receipt__descrp {
     margin: 20px 0 40px 0;
   }
+
+  .examples li {
+    flex-basis: calc(25% - 15px);
+    min-width: calc(50% - 10px);
+  }
 }
+
+@media (max-width: 560px) {
+  .receipt__descrp {
+    margin: 20px 0 40px 0;
+  }
+
+  .examples li {
+    min-width: calc(100%);
+    margin: 10px 0;
+  }
+}
+
 .receipt__cooking {
   font-size: 19px;
   line-height: 32px;
 }
 
+
+/* ------------------------------------ *\
+  # ACCOUNT PAGE
+\* ------------------------------------ */
+
 .account__content {
-display: flex;
-flex-direction: column;
-align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .account__content .content-top {
@@ -1450,21 +1461,8 @@ nav ul {
   line-height: 1.5;
 }
 
-.wishlist ul {
+.wishlist dl {
   margin-top: 30px;
-}
-
-.wishlist li {
   font-size: 16px;
-  position: relative;
-}
-
-.wishlist li::before {
-  min-width: 10px;
-  min-height: 10px;
-  border-radius: 50px;
-  background-color: #222222;
-  content: " ";
-  position: absolute;
-  top: 50%;
+  line-height: 1.5;
 }

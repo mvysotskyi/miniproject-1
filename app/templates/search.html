@@ -10,6 +10,15 @@
                     <input type="text" class="field__input" placeholder="Write your ingredients in english..." id="livebox">
                     <a href='/recepies' id='submitIngredients' class="button">Search</a>
                 </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
                 <div id="response_block" class="field__response">
                     <ul class="field__list" id="response">
                     </ul>
@@ -54,7 +63,7 @@
                                 res_block.append(content)
                             }
                             $('.field__list .button').on('mousedown', function(e) {
-                                // $('#livebox').val('');
+                                $('#livebox').val('');
                                 var idOfClicked = e.target.id;
                                 if (!selectedIngredients.includes(idOfClicked)) {
                                     selectedIngredients.push(idOfClicked);
