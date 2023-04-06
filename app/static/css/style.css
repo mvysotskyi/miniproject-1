@@ -947,6 +947,7 @@ main {
   font-weight: 600;
   margin-bottom: 20px;
 }
+
 @media (max-width: 480px) {
   .search__title {
     font-size: 24px;
@@ -955,7 +956,14 @@ main {
   }
 }
 .search__title_top {
-  margin-top: 30px;
+  margin: 10px 0 0 0;
+  color: #4f4f4f;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.search__result {
+  min-height: 84px;
 }
 
 .search__field__container {

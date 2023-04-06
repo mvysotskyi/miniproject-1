@@ -24,7 +24,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="search__title search__title_top">Your choice:</div>
+            <div class="search__title search__title_top">Your choice will apperar below</div>
             <div id='selectedIngredients' class="search__result result">
             </div>
         </div>
@@ -52,11 +52,12 @@
                     },
                     success: function(res){
                         var res_block = $('#response');
-                        res_block.html('');
-                        if (Object.keys(res).length === 0) {
-                            res_block.html('<li style="margin: 0">No results found</li>');
+                        res_block.html('')
+                        if (res.length === 0) {
+                            res_block.html('<li style="margin: 0; pointer-events: none;">No results found</li>');
+                            return 0
                         } else {
-                            res = Object.fromEntries(Object.entries(res).slice(0, 4));
+                            res = res.slice(0, 4);
                             for (const ingr in res) {
                                 var content = document.createElement(`li`)
                                 content.innerHTML = `${res[ingr]}<span class="button" id="${res[ingr]}">+</span>`
