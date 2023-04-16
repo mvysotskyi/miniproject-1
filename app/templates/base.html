@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <!-- <meta name="robots" content="noindex, nofollow"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,7 @@
                 <div class="header__container _container">
                     <div class="header__body">
                         <div class="header__info info">
-                            <a href="/search" class="info__logo">
+                            <a href="/" class="info__logo">
                                 <Span>U</Span>cook
                             </a>
                         </div>
@@ -29,7 +29,7 @@
                             <div class="header__menu menu">
                                 <nav class="menu__body">
                                     <ul class="menu__list">
-                                        <li class="menu__item"><a href="/" class="button">Home</a></li>
+                                        <li class="menu__item"><a href="/search" class="button">Search</a></li>
                                         {% if logged %}
                                         <li class="menu__item"><a href="/auth/account" class="button">My account</a></li>
                                         {% else %}

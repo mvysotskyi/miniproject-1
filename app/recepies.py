@@ -5,6 +5,7 @@ Recipes Blueprint.
 import re
 from flask import Blueprint, render_template, request, current_app, g, session, flash, redirect
 
+from app.image_parser import get_image
 from app.pandas_access.ingresient_to_list import all_recipes, full_recipe
 from app.db import get_db
 from app.auth import login_required
@@ -78,6 +79,7 @@ def recepie():
         'receipt.html', 
         recipe=_recipe,
         liked=liked,
+        image_url=get_image(_recipe['id'], _recipe['name']),
         logged = g.user is not None
     )
 

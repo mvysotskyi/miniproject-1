@@ -7,6 +7,14 @@
         <div class="receipt__title">
             {{ recipe.name|capitalize }}<span>#{{ recipe.id }}</span>
         </div>
+        <div class="receipt__image">
+            {% if image_url == '' %}
+                <div class="image__placeholder">
+                    <div class="image__placeholder__text">No image provided :(</div>
+                </div>
+            {% endif %}
+            <div class="image__container" style="background-image: url('{{ image_url }}');"></div>
+        </div>
             <div class="receipt__small">
                 <div class="receipt__info">
                     <div class="receipt__ingr"><span class="label">Ingredients: </span>{{ recipe.ingredients }}</div>
@@ -71,5 +79,13 @@
             $(e.target).html('♡')
         }
     });
+
+    /*
+    Set random background-color to .image__placeholder
+    */
+    var colors = ["#c0ddfc", "#fcc0c0", "#c0fcc2", "#fcfcc0"];
+    var randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    $('.image__placeholder').css('background-color', randomColor);
 </script>
 {% endblock %}

@@ -40,6 +40,7 @@ def init_app(app):
     """
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_user_table_command)
+    app.cli.add_command(init_images_table_command)
 
 def init_user_table():
     """
@@ -51,6 +52,16 @@ def init_user_table():
     with current_app.open_resource('sql/user.sql') as sql_file:
         db.executescript(sql_file.read().decode('utf8'))
 
+def init_images_table():
+    """
+    Create the images table.
+    :return: None
+    """
+    db = get_db()
+
+    with current_app.open_resource('sql/images.sql') as sql_file:
+        db.executescript(sql_file.read().decode('utf8'))
+
 @click.command('init-user-table')
 def init_user_table_command():
     """
@@ -59,3 +70,12 @@ def init_user_table_command():
     """
     init_user_table()
     click.echo('Initialized the user table.')
+
+@click.command('init-images-table')
+def init_images_table_command():
+    """
+    Clear the existing data and create new tables.
+    :return: None
+    """
+    init_images_table()
+    click.echo('Initialized the images table.')

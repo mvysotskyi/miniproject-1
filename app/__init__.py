@@ -4,7 +4,6 @@ Description: This file creates and configures an instance of the Flask applicati
 """
 
 import os
-import json
 from flask import Flask, g, render_template
 
 import pandas as pd

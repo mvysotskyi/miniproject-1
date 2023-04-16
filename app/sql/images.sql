@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS images;
+
+CREATE TABLE images (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    recipe INTEGER NOT NULL,
+    image_url TEXT
+);
