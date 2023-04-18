@@ -33,10 +33,12 @@ def create_app():
     from . import recepies
     app.register_blueprint(recepies.bp)
 
-    app.config["_pp"] = pd.read_csv('instance/PP_recipes.csv')
-    app.config["_final"] = pd.read_csv('instance/recipes.csv')
+    # Load resources from bucket
+    BUCKET_NAME = app.config["BUCKET_NAME"]
 
-    app.config["ingredients"] = pd.read_pickle('instance/ingr_map.pkl')
+    app.config["_pp"] = pd.read_csv(f"gs://{BUCKET_NAME}/PP_recipes.csv", encoding="utf-8")
+    app.config["_final"] = pd.read_csv(f"gs://{BUCKET_NAME}/recipes.csv", encoding="utf-8")
+    app.config["ingredients"] = pd.read_pickle(f"gs://{BUCKET_NAME}/ingr_map.pkl")
 
     @app.route('/')
     def index():
